@@ -24,7 +24,7 @@ class Patcher:
                 and os.path.basename(path) == "ABTestPatch.py"
             ):
                 continue
-            module_name = "whatsapp_patcher.patches." + pathlib.Path(path).stem
+            module_name = f"whatsapp_patcher.patches.{pathlib.Path(path).stem}"
             module = importlib.import_module(module_name, module_name)
             inner_class = (
                 getattr(module, dir(module)[0])

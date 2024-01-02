@@ -14,13 +14,11 @@ class DexMD5BypassPatch(Patch):
         self.print_message = "[+] Bypassing dex file md5 hash"
 
     def get_dex_md5(self) -> bytes:
-        with open(self.extracted_path + "/classes.dex", "rb") as f:
+        with open(f"{self.extracted_path}/classes.dex", "rb") as f:
             return md5(f.read()).digest()
 
     def class_filter(self, class_data: str) -> bool:
-        if "app/md5/bytes/error" in class_data:
-            return True
-        return False
+        return "app/md5/bytes/error" in class_data
 
     def class_modifier(self, class_data: str) -> str:
         dex_hash = self.get_dex_md5()
@@ -33,8 +31,7 @@ class DexMD5BypassPatch(Patch):
 
     new-array {array_register}, v2, [B
             """
-        i = 0
-        for byte in dex_hash:
+        for i, byte in enumerate(dex_hash):
             dex_hash_new_body += f"""
     const v2, {hex(byte)}
 
@@ -42,7 +39,6 @@ class DexMD5BypassPatch(Patch):
 
     aput-byte v2, {array_register}, v1
                     """
-            i += 1
         dex_hash_new_body += f"""
     invoke-virtual {{{mac_register}, {array_register}}}, Ljavax/crypto/Mac;->update([B)V
         """

@@ -33,9 +33,7 @@ class ABTestsPatch(Patch):
         return new_method_body
 
     def class_filter(self, class_data: str) -> bool:
-        if ', "Unknown BooleanField: "' in class_data:
-            return True
-        return False
+        return ', "Unknown BooleanField: "' in class_data
 
     def class_modifier(self, class_data) -> str:
         function_body = self.BOOLEAN_TEST_METHOD_BODY_REGEX_SMALI.findall(class_data)[0]

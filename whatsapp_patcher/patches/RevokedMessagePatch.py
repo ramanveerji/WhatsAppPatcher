@@ -17,9 +17,7 @@ class RevokedMessagePatch(Patch):
         self.print_message = "[+] Patching revoke message method..."
 
     def class_filter(self, class_data: str) -> bool:
-        if '"msgstore/edit/revoke "' in class_data:
-            return True
-        return False
+        return '"msgstore/edit/revoke "' in class_data
 
     def class_modifier(self, class_data) -> str:
         revoke_function_data = self.REVOKE_MESSAGE_RE.findall(class_data)[0]

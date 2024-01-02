@@ -14,9 +14,7 @@ class ViewOncePatch(Patch):
         self.print_message = "[+] Patching the view once method..."
 
     def class_filter(self, class_data: str) -> bool:
-        if ".class public Lcom/whatsapp/mediaview/MediaViewFragment;" in class_data:
-            return True
-        return False
+        return ".class public Lcom/whatsapp/mediaview/MediaViewFragment;" in class_data
 
     def class_modifier(self, class_data) -> str:
         view_once_method_body = self.VIEW_ONCE_METHOD_RE.findall(class_data)[0]
