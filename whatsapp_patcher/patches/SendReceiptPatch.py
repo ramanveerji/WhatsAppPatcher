@@ -16,14 +16,7 @@ class SendReceiptPatch(Patch):
         self.print_message = "[+] Patching send read receipt method..."
 
     def class_filter(self, class_data: str) -> bool:
-        if '"; shouldForceReadSelfReceipt="' in class_data:
-            return True
-        return False
+        return '"; shouldForceReadSelfReceipt="' in class_data
 
     def class_modifier(self, class_data) -> str:
         return class_data
-        """send_receipt_constructor_body = self.RECEIPT_METHOD_RE.findall(class_data)[0]
-        return class_data.replace(
-            send_receipt_constructor_body,
-            self.RECEIPT_METHOD_REPLACE + send_receipt_constructor_body,
-        )"""
